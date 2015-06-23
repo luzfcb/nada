@@ -1,0 +1,21 @@
+{% extends "base_template.html" %}
+{% load crispy_forms_filters %}
+
+{% block master %}
+        <div class="ui page grid main">
+        <div class="row">
+            <div class="column padding-reset">
+                <div class="ui large message">
+                    <form class="ui form" action="{% url "login" %}" method="post">
+                        {% csrf_token %}
+                        <h2 class="ui dividing header">Login:</h2>
+                        {{ form|crispy:'semantic-ui' }}
+                        <input type="hidden" name="next" value="/">
+                        <button class="ui submit blue button" type="submit">Logar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock master %}

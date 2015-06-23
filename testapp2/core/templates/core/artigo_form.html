@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load core_tags %}
+{% block conteudo %}
+
+        {{ block.super }}
+        <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
+    <hr>
+
+
+    {% if form %}
+
+        {% crispy form %}
+
+{#        <form action="{% url "livro_create" %}" method="post">#}
+{#            {{ form |crispy }}#}
+{#            <button type="submit">Salvar</button>#}
+{##}
+{#        </form>#}
+        {% if version_list %}
+            <div class="row blue">
+                <div class="">
+{#                    <ul>#}
+{#                    {% for version in version_list %}#}
+{#                        {% render_object version %}#}
+{#                    {% endfor %}#}
+{#                    </ul>#}
+
+    <div id="content-main">
+
+        <p>{% blocktrans %}Choose a date from the list below to revert to a previous version of this object.{% endblocktrans %}</p>
+
+        <div class="module">
+            {% if version_list %}
+                <table id="change-history" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">{% trans 'Data/horário' %}</th>
+                            <th scope="col">{% trans 'Usuário' %}</th>
+                            <th scope="col">{% trans 'Comentário' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for action in version_list %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'artigo_revison' action.pk %}">{{action.revision.date_created}}</a></th>
+                                <td>
+                                    {% if action.revision.user %}
+                                        {{action.revision.user.get_username}}
+                                        {% if action.revision.user.get_full_name %} ({{action.revision.user.get_full_name}}){% endif %}
+                                    {% else %}
+                                        &mdash;
+                                    {% endif %}
+                                </td>
+                                <td>{{action.revision.comment|linebreaksbr|default:""}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>
+            {% endif %}
+        </div>
+    </div>
+
+
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        Nada aqui
+    {% endif %}
+
+
+{% endblock conteudo %}
+

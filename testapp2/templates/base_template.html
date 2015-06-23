@@ -1,0 +1,18 @@
+{% extends "blank.html" %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block masterconteudo %}
+    <h1 class="page-header">Blank</h1>
+    {% if user.is_authenticated %}
+        <p>Bem vindo, <b>{{ user.username }}</b>. Fazer <a class="btn btn-danger btn-xs"
+                                                           href="{% url "logout" %}">logout</a></p>
+        <p></p>
+        {% block conteudo %}
+        {% endblock %}
+    {% else %}
+        <p>Please <a href="{% url "login" %}">login</a> to see this page.</p>
+    {% endif %}
+
+{% endblock masterconteudo %}

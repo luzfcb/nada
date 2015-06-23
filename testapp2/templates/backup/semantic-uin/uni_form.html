@@ -1,0 +1,11 @@
+{% load crispy_forms_utils %}
+
+{% specialspaceless %}
+    {{ form.media }}
+    {% if form_show_errors %}
+        {% include "semantic-ui/errors.html" %}
+    {% endif %}
+    {% for field in form %}
+        {% include "semantic-ui/field.html" %}
+    {% endfor %}
+{% endspecialspaceless %}

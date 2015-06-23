@@ -1,0 +1,20 @@
+{% extends "core/base.html" %}
+{% load core_tags %}
+
+{% block conteudo %}
+    {{ block.super }}
+    <a class="btn btn-xs btn-success" href="{% url "artigo_create" %}">Cadastrar Novo Livro</a>
+    <hr>
+
+    {% if object_list %}
+        <h2>Livros:</h2>
+        <ul>
+            <hr>
+            {% for o in object_list %}
+                {% render_object o url 'artigo_update' %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h3>Nâo há itens cadastrados </h3>
+    {% endif %}
+{% endblock conteudo %}

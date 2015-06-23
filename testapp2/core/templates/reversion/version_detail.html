@@ -1,0 +1,8 @@
+{% extends "core/base.html" %}
+{% load core_tags %}
+
+{% block conteudo %}
+    {{ block.super }}
+    {% render_object object %}
+
+{% endblock conteudo %}

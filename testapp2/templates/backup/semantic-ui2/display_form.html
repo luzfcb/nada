@@ -1,0 +1,9 @@
+{% if form.form_html %}
+    {{ form.media }}
+    {% if form_show_errors %}
+        {% include "semantic-ui2/errors.html" %}
+    {% endif %}
+    {{ form.form_html }}
+{% else %}
+    {% include "semantic-ui2/uni_form.html" %}
+{% endif %}

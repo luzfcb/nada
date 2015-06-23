@@ -1,0 +1,24 @@
+{% extends "processo/base.html" %}
+{% load crispy_forms_tags %}
+{% block conteudo %}
+
+        {{ block.super }}
+        <a class="btn btn-xs btn-info" href="{% url "livro_list" %}">Listar Livros</a>
+    <hr>
+
+
+    {% if form %}
+
+        {% crispy form %}
+
+{#        <form action="{% url "livro_create" %}" method="post">#}
+{#            {{ form |crispy }}#}
+{#            <button type="submit">Salvar</button>#}
+{##}
+{#        </form>#}
+    {% else %}
+        Nada aqui
+    {% endif %}
+
+
+{% endblock conteudo %}

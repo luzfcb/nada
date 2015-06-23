@@ -1,0 +1,22 @@
+{% extends "registration/login.html" %}
+{% load crispy_forms_filters %}
+
+
+
+{% block conteudo %}
+    <div class="panel-heading">
+        <h2 class="panel-title">Sessão encerrada</h2>
+    </div>
+    <div class="panel-body">
+
+        Obrigado por visitar nosso Web site hoje.
+        <p></p>
+            <div class="row text-center">
+                <a class="btn btn-success" href="{% url "login" %}">Acessar novamente</a>
+            </div>
+
+
+    </div>
+
+
+{% endblock conteudo %}

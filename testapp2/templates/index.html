@@ -1,0 +1,22 @@
+{% extends "base_template.html" %}
+
+
+{% block conteudo %}
+    <div class="ui list">
+        <div class="item">
+            <a class="header" href="{% url "artigo_create" %}">Cadastrar Novo Artigo</a>
+            <div class="description">
+               Vai para a pagina de cadastro de artigo chatos
+            </div>
+        </div>
+
+        <div class="item">
+            <a class="header" href="{% url "artigo_list" %}">Listar Artigos</a>
+            <div class="description">
+               Vai para a pagina que lista artigos chatos
+            </div>
+        </div>
+
+    </div>
+
+{% endblock conteudo %}
