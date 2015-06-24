@@ -1,8 +1,16 @@
 {% extends "core/base.html" %}
 {% load core_tags %}
+{% load crispy_forms_tags %}
 
 {% block conteudo %}
     {{ block.super }}
     {% render_object object %}
 
+    {% if form %}
+        <div class="row">
+            {% crispy form %}
+
+        </div>
+
+    {% endif %}
 {% endblock conteudo %}

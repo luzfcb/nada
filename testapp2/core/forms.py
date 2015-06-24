@@ -15,6 +15,13 @@ class SaveHelper(FormHelper):
         self.render_required_fields = True
 
 
+class ReverterHelper(FormHelper):
+    def __init__(self, form=None):
+        super(ReverterHelper, self).__init__(form)
+        self.layout.append(Submit(name='reverter', value='Reverter'))
+        self.form_show_errors = True
+        self.render_required_fields = True
+
 
 class ArtigoForm(forms.ModelForm):
 

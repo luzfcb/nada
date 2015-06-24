@@ -20,6 +20,8 @@ from django.views import generic
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_nyt_pattern
 
+from django.conf import settings
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^notifications/', get_nyt_pattern()),

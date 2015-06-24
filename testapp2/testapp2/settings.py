@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'wiki.plugins.notifications',
     'wiki.plugins.images',
     'wiki.plugins.macros',
+    'debug_toolbar',
 
 )
 
@@ -116,7 +117,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
 
@@ -141,6 +142,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-AUTOADMIN_EMAI = 'admin@admin.com'
+AUTOADMIN_EMAIL = 'admin@admin.com'
 AUTOADMIN_PASSWORD = 'admin'
 AUTOADMIN_USERNAME = 'admin'
