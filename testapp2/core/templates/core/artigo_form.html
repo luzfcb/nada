@@ -7,9 +7,12 @@
     {{ block.super }}
     <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
     <hr>
+    <a class="btn btn-xs btn-info" href="{% url "artigo_revison2" object.pk %}">Listar Historico</a>
+    <hr>
 
 
     {% if form %}
+
 
         {% crispy form %}
 
@@ -52,7 +55,7 @@
                                     {% for action in version_list %}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="{% url 'artigo_revison' action.pk %}">{{ action.revision.date_created }}</a>
+                                                    href="{% url 'artigo_revison2' action.pk %}">{{ action.revision.date_created }}</a>
                                             </th>
                                             <td>
                                                 {#                                    {{ action.field_dict }}#}
@@ -113,7 +116,7 @@
                                     {% for action in versoes %}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="{% url 'artigo_revison' action.pk %}">{{ action.revision.date_created }}</a>
+                                                    href="{% url 'artigo_revison2' action.pk %}">{{ action.revision.date_created }}</a>
                                             </th>
                                             <td>
                                                 {#                                    {{ action.field_dict }}#}
@@ -175,7 +178,7 @@
                                     {% for unica_versao in versoes_unicas %}
                                         <tr>
                                             <th scope="row"><a
-                                                    href="{% url 'artigo_revison' unica_versao.pk %}">{{ unica_versao.revision.date_created|timesince }}</a>
+                                                    href="{% url 'artigo_revison2' unica_versao.pk %}">{{ unica_versao.revision.date_created|timesince }}</a>
                                             </th>
                                             <td>
                                                 {#                                    {{ action.field_dict }}#}

@@ -24,7 +24,6 @@ class ReverterHelper(FormHelper):
 
 
 class ArtigoForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(ArtigoForm, self).__init__(*args, **kwargs)
         self.helper = SaveHelper(self)
@@ -32,3 +31,36 @@ class ArtigoForm(forms.ModelForm):
     class Meta:
         model = Artigo
         fields = '__all__'
+
+
+class ReadOnlyFieldsMixin(object):
+    readonly_fields = ()
+
+    def __init__(self, *args, **kwargs):
+        super(ReadOnlyFieldsMixin, self).__init__(*args, **kwargs)
+        for field in (field for name, field in self.fields.iteritems() if name in self.readonly_fields):
+            field.widget.attrs['disabled'] = 'true'
+            field.required = False
+
+    def clean(self):
+        cleaned_data = super(ReadOnlyFieldsMixin, self).clean()
+        for field in self.readonly_fields:
+            cleaned_data[field] = getattr(self.instance, field)
+
+        return cleaned_data
+
+class ReadOnlyAllFieldsMixin(object):
+
+
+    def __init__(self, *args, **kwargs):
+        super(ReadOnlyAllFieldsMixin, self).__init__(*args, **kwargs)
+        for field in (field for name, field in self.fields.iteritems()):
+            field.widget.attrs['disabled'] = 'true'
+            field.required = False
+
+    def clean(self):
+        cleaned_data = super(ReadOnlyAllFieldsMixin, self).clean()
+        for field in self.fields:
+            cleaned_data[field] = getattr(self.instance, field)
+
+        return cleaned_data

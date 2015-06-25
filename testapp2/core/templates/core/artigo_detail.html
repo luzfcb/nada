@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% load core_tags %}
+
+
+{% block conteudo %}
+    {% if object %}
+        Objeto: {% render_object object %}
+    {% endif %}
+
+    {% if object_list %}
+        {% for obj in object_list %}
+            Objeto item: {% render_object obj %}
+        {% endfor %}
+
+    {% endif %}
+{% endblock conteudo %}

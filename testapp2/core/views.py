@@ -1,13 +1,19 @@
+from crispy_forms.layout import Submit
 from django import forms
+from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render
 
 # Create your views here.
 from django.views import generic
+from django.views.generic.detail import SingleObjectMixin, BaseDetailView
+import pycallgraph
+from pycallgraph.output import GraphvizOutput
 from reversion.models import Version
+from .list import DetailVersionListViewMixin
 
 from .models import Artigo
-from .forms import ArtigoForm, ReverterHelper
+from .forms import ArtigoForm, ReverterHelper, ReadOnlyAllFieldsMixin
 
 import reversion
 
@@ -67,18 +73,19 @@ class ReverterForm(forms.Form):
     comentario = forms.CharField(required=True)
 
     def __init__(self, *args, **kwargs):
-        self.original = forms.ModelChoiceField(queryset=None, initial=kwargs.get('modelo', None))
         super(ReverterForm, self).__init__(*args, **kwargs)
-        self.helper = ReverterHelper(self)
+        if hasattr(self, 'helper'):
+            self.helper.layout.append(Submit(name='reverter', value='Reverter'))
+        else:
+            self.helper = ReverterHelper(self)
 
 
-
-class RevisionView(generic.FormView, generic.DetailView):
+class RevisionView(generic.DetailView, SingleObjectMixin):
     model = Version
-    form_class = ReverterForm
+    # form_class = ReverterForm
 
-    def get(self, request, *args, **kwargs):
-        return super(RevisionView, self).get(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     return super(RevisionView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         contexto = super(RevisionView, self).get_context_data(**kwargs)
@@ -86,11 +93,13 @@ class RevisionView(generic.FormView, generic.DetailView):
             {'form': self.form_class
              }
         )
+
         return contexto
 
     def get_form_class(self):
-        class A(ReverterForm, ArtigoForm):
+        class A(ReadOnlyAllFieldsMixin, ReverterForm, ArtigoForm):
             pass
+
         return A
 
     def get_initial(self):
@@ -102,8 +111,7 @@ class RevisionView(generic.FormView, generic.DetailView):
 
     def form_valid(self, form):
         value = super(RevisionView, self).form_valid(form)
-        z = self.get_object().revert()
-        print(z)
+        self.get_object().revert()
         reversion.set_user(self.request.user)
         reversion.set_comment(form.cleaned_data.get('comentario', 'NADA'))
         return value
@@ -114,6 +122,47 @@ class RevisionView(generic.FormView, generic.DetailView):
                                 'pk': self.get_object().object_id
                             }
                             )
+
+
+class GenericRevisionView(generic.FormView, BaseDetailView):
+
+    version_list = None
+    model = Version
+    model_to_revision = None
+    template_name = 'core/artigo_form.html'
+
+    def get_model_to_revision(self):
+        if self.model_to_revision is None:
+            raise ImproperlyConfigured(
+                '{0} is missing a model_to_revision '
+                'name to reverse and redirect to. Define '
+                '{0}.model_to_revision or override '
+                '{0}.get_model_to_revision().'.format(self.__class__.__name__))
+        return self.model_to_revision
+
+    def __init__(self, **kwargs):
+        super(GenericRevisionView, self).__init__(**kwargs)
+        if self.form_class:
+            class GenericRevisionForm(ReadOnlyAllFieldsMixin, self.form_class):
+                class Meta:
+                    model = self.get_model_to_revision()
+                    fields = '__all__'
+
+            self.form_class = GenericRevisionForm
+
+    def get(self, request, *args, **kwargs):
+        a = super(GenericRevisionView, self).get(request, *args, **kwargs)
+        self.version_list = reversion.get_unique_for_object(self.get_object())
+        context = self.get_context_data(version_list=self.version_list)
+        return self.render_to_response(context)
+        # return
+
+
+
+class RevisionView2(GenericRevisionView):
+    pass
+
+
 
 
 import reversion
@@ -134,3 +183,12 @@ class ReversionSerializerMixin(object):
     def update(self, *args, **kwargs):
         with transaction.atomic(), reversion.create_revision():
             return super(ReversionSerializerMixin, self).update(*args, **kwargs)
+
+
+
+
+
+class ArtigoVersionVersionListView(DetailVersionListViewMixin):
+    model = Artigo
+    def __init__(self, **kwargs):
+        super(ArtigoVersionVersionListView, self).__init__(**kwargs)

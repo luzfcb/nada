@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'wiki.plugins.images',
     'wiki.plugins.macros',
     'debug_toolbar',
+    'django_extensions',
 
 )
 

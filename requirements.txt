@@ -1,16 +1,19 @@
 -e git://github.com/django-wiki/django-wiki.git#egg=wiki
 Pillow
 Django>=1.4,<1.9
-django-sekizai
+
 django-nyt
 
 django-mptt==0.7.1
 six
 sorl-thumbnail
 Markdown>2.2.0
--e git://github.com/ojii/django-sekizai/archive/master.zip#egg=django-sekizai
+-e git://github.com/ojii/django-sekizai.git@master#egg=django-sekizai
 
 django-autoadmin
 django-reversion
-django-crispy-forms
+-e git://github.com/maraujop/django-crispy-forms.git#egg=django-crispy-forms
 django-debug-toolbar
+-e git://github.com/gak/pycallgraph.git@develop#egg=pycallgraph
+django-extensions
+Werkzeug
