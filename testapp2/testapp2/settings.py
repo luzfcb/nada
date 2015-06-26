@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'wiki.plugins.macros',
     'debug_toolbar',
     'django_extensions',
+    'bootstrap_pagination',
 
 )
 

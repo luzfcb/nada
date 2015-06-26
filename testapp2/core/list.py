@@ -21,7 +21,7 @@ class VersionMultipleObjectMixin(ContextMixin):
     version_model = Version
     version_paginate_by = None
     version_paginate_orphans = 0
-    version_context_object_name = None
+    version_context_object_name = 'object_version_list'
     version_paginator_class = Paginator
     version_page_kwarg = 'page'
     version_ordering = None
@@ -133,7 +133,7 @@ class VersionMultipleObjectMixin(ContextMixin):
         Get the context for this view.
         """
         # version_queryset = kwargs.pop('version_object_list', self.version_object_list)
-        version_queryset = kwargs.pop('version_object_list', self.version_queryset)
+        version_queryset = kwargs.pop('version_object_list', self.get_version_queryset())
         version_page_size = self.get_version_paginate_by(version_queryset)
         version_context_object_name = self.get_version_context_object_name(version_queryset)
         if version_page_size:

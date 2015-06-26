@@ -10,6 +10,8 @@ sorl-thumbnail
 Markdown>2.2.0
 -e git://github.com/ojii/django-sekizai.git@master#egg=django-sekizai
 
+
+django-bootstrap-pagination
 django-autoadmin
 django-reversion
 -e git://github.com/maraujop/django-crispy-forms.git#egg=django-crispy-forms
@@ -17,3 +19,4 @@ django-debug-toolbar
 -e git://github.com/gak/pycallgraph.git@develop#egg=pycallgraph
 django-extensions
 Werkzeug
+

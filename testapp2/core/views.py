@@ -36,6 +36,7 @@ class ArtigoListView(generic.ListView):
 
 
 class ArtigoCreateView(generic.CreateView):
+    template_name = 'core/artigo_form2.html'
     model = Artigo
     success_url = reverse_lazy('artigo_list')
     form_class = ArtigoForm
@@ -188,7 +189,8 @@ class ReversionSerializerMixin(object):
 
 
 
-class ArtigoVersionVersionListView(DetailVersionListViewMixin):
+class ArtigoVersionListView(DetailVersionListViewMixin):
     model = Artigo
+    version_paginate_by = 2
     def __init__(self, **kwargs):
-        super(ArtigoVersionVersionListView, self).__init__(**kwargs)
+        super(ArtigoVersionListView, self).__init__(**kwargs)
