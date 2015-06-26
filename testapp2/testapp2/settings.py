@@ -25,6 +25,8 @@ SECRET_KEY = '*j86^%t2xectm$9b8zeba!kf!cj&9s#&4o2kux^z=*$a%@ifs!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+TEMPLATE_DEBUG = DEBUG
+
 ALLOWED_HOSTS = []
 
 
@@ -45,16 +47,16 @@ INSTALLED_APPS = (
     'autoadmin',
     'core',
     'reversion',
-    'django_nyt',
-
-    'mptt',
-    'sekizai',
-    'sorl.thumbnail',
-    'wiki',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'wiki.plugins.images',
-    'wiki.plugins.macros',
+    # 'django_nyt',
+    #
+    # 'mptt',
+    # 'sekizai',
+    # 'sorl.thumbnail',
+    # 'wiki',
+    # 'wiki.plugins.attachments',
+    # 'wiki.plugins.notifications',
+    # 'wiki.plugins.images',
+    # 'wiki.plugins.macros',
     'debug_toolbar',
     'django_extensions',
     'bootstrap_pagination',
@@ -110,9 +112,19 @@ WSGI_APPLICATION = 'testapp2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'processo2',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+        'USER': 'postgres',
+
+        'PASSWORD': 'postgres'
+
+    },
+    # 'outro': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 
 

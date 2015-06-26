@@ -7,8 +7,10 @@
     {{ block.super }}
     <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
     <hr>
-    <hr>
-
+    {% if object %}
+        <a class="btn btn-xs btn-info" href="{% url "artigo_revison2" object.pk %}">Listar Historico de Modificações</a>
+        <hr>
+    {% endif %}
 
     {% if form %}
 

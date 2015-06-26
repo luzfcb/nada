@@ -42,28 +42,29 @@ class ArtigoCreateView(generic.CreateView):
     form_class = ArtigoForm
 
 
-class ArtigoUpdateView(VersionListMixin, generic.UpdateView):
+class ArtigoUpdateView(generic.UpdateView):
+    template_name = 'core/artigo_form2.html'
     model = Artigo
     success_url = reverse_lazy('artigo_list')
     form_class = ArtigoForm
 
-    def get_context_data(self, **kwargs):
-        contexto = super(ArtigoUpdateView, self).get_context_data(**kwargs)
-        versoes = self.get_object().versions.all()
-        versoes_unicas = reversion.get_unique_for_object(self.get_object())
-        total_versoes = versoes.count()
-
-        z = versoes_unicas[0]
-        contexto.update(
-            {
-                'versoes': versoes,
-                'versoes_unicas': versoes_unicas,
-                'total_versoes': total_versoes,
-                'z': z.field_dict,
-                'zz': ArtigoForm(initial=z.field_dict)
-            }
-        )
-        return contexto
+    # def get_context_data(self, **kwargs):
+    #     contexto = super(ArtigoUpdateView, self).get_context_data(**kwargs)
+    #     versoes = self.get_object().versions.all()
+    #     versoes_unicas = reversion.get_unique_for_object(self.get_object())
+    #     total_versoes = versoes.count()
+    #
+    #     z = versoes_unicas[0]
+    #     contexto.update(
+    #         {
+    #             'versoes': versoes,
+    #             'versoes_unicas': versoes_unicas,
+    #             'total_versoes': total_versoes,
+    #             'z': z.field_dict,
+    #             'zz': ArtigoForm(initial=z.field_dict)
+    #         }
+    #     )
+    #     return contexto
 
 
 # class ArtigoVersionsList(generic.ListView):
@@ -191,6 +192,7 @@ class ReversionSerializerMixin(object):
 
 class ArtigoVersionListView(DetailVersionListViewMixin):
     model = Artigo
-    version_paginate_by = 2
+    version_paginate_by = 20
+
     def __init__(self, **kwargs):
         super(ArtigoVersionListView, self).__init__(**kwargs)

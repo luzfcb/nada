@@ -3,11 +3,11 @@
 
 {% block conteudo %}
     {{ block.super }}
-    <a class="btn btn-xs btn-success" href="{% url "artigo_create" %}">Cadastrar Novo Livro</a>
+    <a class="btn btn-xs btn-success" href="{% url "artigo_create" %}">Cadastrar Novo Artigo</a>
     <hr>
 
     {% if object_list %}
-        <h2>Livros:</h2>
+        <h2>Artigos:</h2>
         <ul>
             <hr>
             {% for o in object_list %}

@@ -1,6 +1,7 @@
 -e git://github.com/django-wiki/django-wiki.git#egg=wiki
 Pillow
 Django>=1.4,<1.9
+psycopg2
 
 django-nyt
 
@@ -19,4 +20,5 @@ django-debug-toolbar
 -e git://github.com/gak/pycallgraph.git@develop#egg=pycallgraph
 django-extensions
 Werkzeug
+
 

@@ -4,16 +4,26 @@
 
 
 {% block conteudo %}
-    {% if object %}
-        Objeto: {% render_object object %}
-    {% endif %}
+    {{ block.super }}
+    <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
+    <hr>
+
+    {#    {% if object %}#}
+    {#        Objeto: {% render_object object %}#}
+    {#    {% endif %}#}
 
     {% if object_version_list %}
-        {% for obj in object_version_list %}
-            Objeto item: {% render_object obj %}
-        {% endfor %}
+        <ul>
+            {% for obj in object_version_list %}
+                Objeto item: {% render_object obj %}
+            {% endfor %}
+        </ul>
 
-        {% bootstrap_paginate version_page_obj %}
+        {% if version_page_obj %}
+{#            {% if version_page_obj.number > 1 %}#}
+                {% bootstrap_paginate version_page_obj %}
+{#            {% endif %}#}
+        {% endif %}
     {% endif %}
 
 

@@ -23,7 +23,7 @@ class VersionMultipleObjectMixin(ContextMixin):
     version_paginate_orphans = 0
     version_context_object_name = 'object_version_list'
     version_paginator_class = Paginator
-    version_page_kwarg = 'page'
+    version_page_kwarg = 'versionpage'
     version_ordering = None
     # version_object_list = None
 
@@ -40,7 +40,8 @@ class VersionMultipleObjectMixin(ContextMixin):
                 queryset = queryset.all()
         elif self.version_model is not None:
             # queryset = self.version_model._default_manager.all()
-            queryset = reversion.get_unique_for_object(self.get_object())
+            queryset = reversion.get_for_object(self.get_object()).order_by(
+                '-revision__date_created')
         else:
             raise ImproperlyConfigured(
                 "%(cls)s is missing a QuerySet. Define "
@@ -178,8 +179,9 @@ class BaseVersionListViewMixin(VersionMultipleObjectMixin, View):
             else:
                 is_empty = len(self.version_object_list) == 0
             if is_empty:
-                raise Http404(_("Empty Version list and '%(class_name)s.version_allow_empty' is False.")
-                              % {'class_name': self.__class__.__name__})
+                raise Http404(
+                    _("Empty Version list and '%(class_name)s.version_allow_empty' is False.")
+                    % {'class_name': self.__class__.__name__})
         context = self.get_context_data()
         # return self.render_to_response(context)
 

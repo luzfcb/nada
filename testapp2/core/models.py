@@ -32,7 +32,7 @@ class ConteudoMixin(models.Model):
         verbose_name=_('Conteúdo')
     )
 
-    versions = GenericRelation(Version)
+    # versions = GenericRelation(Version)
 
     class Meta:
         abstract = True
@@ -40,7 +40,8 @@ class ConteudoMixin(models.Model):
 
 @reversion.register
 class Artigo(ConteudoMixin, TimeStamped):
-    pass
+    def __unicode__(self):
+        return "{} - {} - {}".format(self.conteudo if self.conteudo else None, self.modificado_em, self.criado_em)
 
 
 
