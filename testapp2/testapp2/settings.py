@@ -46,7 +46,10 @@ INSTALLED_APPS = (
     'crispy_forms',
     'autoadmin',
     'core',
+    'documentos',
     'reversion',
+    'reversion_extras',
+    'redactor',
     # 'django_nyt',
     #
     # 'mptt',
@@ -62,6 +65,9 @@ INSTALLED_APPS = (
     'bootstrap_pagination',
 
 )
+
+REDACTOR_OPTIONS = {'lang': 'pt-br'}
+REDACTOR_UPLOAD = 'uploads/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

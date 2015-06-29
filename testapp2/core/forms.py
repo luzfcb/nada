@@ -23,6 +23,12 @@ class ReverterHelper(FormHelper):
         self.render_required_fields = True
 
 
+class SalvarFormMixin(object):
+    def __init__(self, *args, **kwargs):
+        super(SalvarFormMixin, self).__init__(*args, **kwargs)
+        self.helper = SaveHelper(self)
+
+
 class ArtigoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ArtigoForm, self).__init__(*args, **kwargs)
@@ -38,7 +44,8 @@ class ReadOnlyFieldsMixin(object):
 
     def __init__(self, *args, **kwargs):
         super(ReadOnlyFieldsMixin, self).__init__(*args, **kwargs)
-        for field in (field for name, field in self.fields.iteritems() if name in self.readonly_fields):
+        for field in (field for name, field in self.fields.iteritems() if
+                      name in self.readonly_fields):
             field.widget.attrs['disabled'] = 'true'
             field.required = False
 
@@ -49,9 +56,8 @@ class ReadOnlyFieldsMixin(object):
 
         return cleaned_data
 
+
 class ReadOnlyAllFieldsMixin(object):
-
-
     def __init__(self, *args, **kwargs):
         super(ReadOnlyAllFieldsMixin, self).__init__(*args, **kwargs)
         for field in (field for name, field in self.fields.iteritems()):

@@ -10,7 +10,7 @@ from django.views.generic.detail import SingleObjectMixin, BaseDetailView
 import pycallgraph
 from pycallgraph.output import GraphvizOutput
 from reversion.models import Version
-from .list import DetailVersionListViewMixin
+from reversion_extras.views import DetailVersionListView, UpdateVersionListView
 
 from .models import Artigo
 from .forms import ArtigoForm, ReverterHelper, ReadOnlyAllFieldsMixin
@@ -48,27 +48,6 @@ class ArtigoUpdateView(generic.UpdateView):
     success_url = reverse_lazy('artigo_list')
     form_class = ArtigoForm
 
-    # def get_context_data(self, **kwargs):
-    #     contexto = super(ArtigoUpdateView, self).get_context_data(**kwargs)
-    #     versoes = self.get_object().versions.all()
-    #     versoes_unicas = reversion.get_unique_for_object(self.get_object())
-    #     total_versoes = versoes.count()
-    #
-    #     z = versoes_unicas[0]
-    #     contexto.update(
-    #         {
-    #             'versoes': versoes,
-    #             'versoes_unicas': versoes_unicas,
-    #             'total_versoes': total_versoes,
-    #             'z': z.field_dict,
-    #             'zz': ArtigoForm(initial=z.field_dict)
-    #         }
-    #     )
-    #     return contexto
-
-
-# class ArtigoVersionsList(generic.ListView):
-
 
 
 class ReverterForm(forms.Form):
@@ -85,9 +64,6 @@ class ReverterForm(forms.Form):
 class RevisionView(generic.DetailView, SingleObjectMixin):
     model = Version
     # form_class = ReverterForm
-
-    # def get(self, request, *args, **kwargs):
-    #     return super(RevisionView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         contexto = super(RevisionView, self).get_context_data(**kwargs)
@@ -190,9 +166,7 @@ class ReversionSerializerMixin(object):
 
 
 
-class ArtigoVersionListView(DetailVersionListViewMixin):
+class ArtigoVersionListView(DetailVersionListView):
     model = Artigo
-    version_paginate_by = 20
+    version_paginate_by = 2
 
-    def __init__(self, **kwargs):
-        super(ArtigoVersionListView, self).__init__(**kwargs)

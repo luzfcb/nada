@@ -27,6 +27,14 @@ urlpatterns = [
     # url(r'^notifications/', get_nyt_pattern()),
     # url(r'', get_wiki_pattern()),
     url(r'^$', generic.TemplateView.as_view(template_name='index.html'), name='home'),
-    url(r'', include('core.urls')),
+    url(r'^redactor/', include('redactor.urls')),
     url('^', include('django.contrib.auth.urls')),
+
 ]
+
+# from django.apps import apps
+#
+# if apps.is_installed('core'):
+#     urlpatterns += [
+#         url(r'', include('core.urls')),
+#     ]

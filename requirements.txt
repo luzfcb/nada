@@ -20,5 +20,8 @@ django-debug-toolbar
 -e git://github.com/gak/pycallgraph.git@develop#egg=pycallgraph
 django-extensions
 Werkzeug
+django-reversion-extras
+django-wysiwyg-redactor
+
 
 

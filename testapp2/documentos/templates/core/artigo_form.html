@@ -1,0 +1,236 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load core_tags %}
+{% block conteudo %}
+
+    {{ block.super }}
+    <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
+    <hr>
+    <a class="btn btn-xs btn-info" href="{% url "artigo_revison2" object.pk %}">Listar Historico</a>
+    <hr>
+
+
+    {% if form %}
+
+
+        {% crispy form %}
+
+        <div >
+            <h4>Documento versão <b>{{ total_versoes }}</b>.</h4>
+        <br/>
+        </div>
+
+        {#        <form action="{% url "livro_create" %}" method="post">#}
+        {#            {{ form |crispy }}#}
+        {#            <button type="submit">Salvar</button>#}
+        {##}
+        {#        </form>#}
+
+                {% if version_list %}
+            {% for versoes_unica in version_list %}
+                {% render_object versoes_unica %}
+            {% endfor %}
+
+
+        {% endif %}
+
+
+        {% if version_list %}
+            <div class="row blue">
+                <div class="">
+                    {#                    <ul>#}
+                    {#                    {% for version in version_list %}#}
+                    {#                        {% render_object version %}#}
+                    {#                    {% endfor %}#}
+                    {#                    </ul>#}
+
+                    <div id="content-main">
+
+                        <p>{% blocktrans %}Choose a date from the list below to revert to a previous version of this
+                            object.{% endblocktrans %}</p>
+
+                        <div class="module">
+                            {% if version_list %}
+                                <table id="change-history" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">{% trans 'Data/horário' %}</th>
+                                        <th scope="col">{% trans 'Valor' %}</th>
+                                        <th scope="col">{% trans 'Usuário' %}</th>
+                                        <th scope="col">{% trans 'Comentário' %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for action in version_list %}
+                                        <tr>
+                                            <th scope="row"><a
+                                                    href="{% url 'artigo_revison2' action.pk %}">{{ action.revision.date_created }}</a>
+                                            </th>
+                                            <td>
+                                                {#                                    {{ action.field_dict }}#}
+                                                {{ action.object_version.object.conteudo }}
+
+                                            </td>
+                                            <td>
+                                                {% if action.revision.user %}
+                                                    {{ action.revision.user.get_username }}
+                                                    {% if action.revision.user.get_full_name %} (
+                                                        {{ action.revision.user.get_full_name }}){% endif %}
+                                                {% else %}
+                                                    &mdash;
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ action.revision.comment|linebreaksbr|default:"" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        {% endif %}
+{#        <h2>Versões</h2>#}
+{#        {% if versoes %}#}
+{#            <div class="row blue">#}
+{#                <div class="">#}
+                    {#                    <ul>#}
+                    {#                    {% for version in version_list %}#}
+                    {#                        {% render_object version %}#}
+                    {#                    {% endfor %}#}
+                    {#                    </ul>#}
+{##}
+{#                    <div id="content-main">#}
+{##}
+{#                        <p>{% blocktrans %}Choose a date from the list below to revert to a previous version of this#}
+{#                            object.{% endblocktrans %}</p>#}
+{##}
+{#                        <div class="module">#}
+{#                            {% if versoes %}#}
+{#                                <table id="change-history" class="table table-striped table-bordered">#}
+{#                                    <thead>#}
+{#                                    <tr>#}
+{#                                        <th scope="col">{% trans 'Data/horário' %}</th>#}
+{#                                        <th scope="col">{% trans 'Valor' %}</th>#}
+{#                                        <th scope="col">{% trans 'Usuário' %}</th>#}
+{#                                        <th scope="col">{% trans 'Comentário' %}</th>#}
+{#                                    </tr>#}
+{#                                    </thead>#}
+{#                                    <tbody>#}
+{#                                    {% for action in versoes %}#}
+{#                                        <tr>#}
+{#                                            <th scope="row"><a#}
+{#                                                    href="{% url 'artigo_revison2' action.pk %}">{{ action.revision.date_created }}</a>#}
+{#                                            </th>#}
+{#                                            <td>#}
+                                                {#                                    {{ action.field_dict }}#}
+{#                                                {{ action.object_version.object.conteudo }}#}
+{##}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                                {% if action.revision.user %}#}
+{#                                                    {{ action.revision.user.get_username }}#}
+{#                                                    {% if action.revision.user.get_full_name %} (#}
+{#                                                        {{ action.revision.user.get_full_name }}){% endif %}#}
+{#                                                {% else %}#}
+{#                                                    &mdash;#}
+{#                                                {% endif %}#}
+{#                                            </td>#}
+{#                                            <td>{{ action.revision.comment|linebreaksbr|default:"" }}</td>#}
+{#                                        </tr>#}
+{#                                    {% endfor %}#}
+{#                                    </tbody>#}
+{#                                </table>#}
+{#                            {% else %}#}
+{#                                <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{##}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#        {% endif %}#}
+{#        <h2>Versões Unicas</h2>#}
+{#        {% if versoes_unicas %}#}
+{#            <div class="row blue">#}
+{#                <div class="">#}
+                    {#                    <ul>#}
+                    {#                    {% for version in version_list %}#}
+                    {#                        {% render_object version %}#}
+                    {#                    {% endfor %}#}
+                    {#                    </ul>#}
+{##}
+{#                    <div id="content-main">#}
+{##}
+{#                        <p>{% blocktrans %}Choose a date from the list below to revert to a previous version of this#}
+{#                            object.{% endblocktrans %}</p>#}
+{##}
+{#                        <div class="module">#}
+{#                            {% if versoes_unicas %}#}
+{#                                <table id="change-history" class="table table-striped table-bordered">#}
+{#                                    <thead>#}
+{#                                    <tr>#}
+{#                                        <th scope="col">{% trans 'Data/horário' %}</th>#}
+{#                                        <th scope="col">{% trans 'Valor' %}</th>#}
+{#                                        <th scope="col">{% trans 'Usuário' %}</th>#}
+{#                                        <th scope="col">{% trans 'Comentário' %}</th>#}
+{#                                    </tr>#}
+{#                                    </thead>#}
+{#                                    <tbody>#}
+{#                                    {% for unica_versao in versoes_unicas %}#}
+{#                                        <tr>#}
+{#                                            <th scope="row"><a#}
+{#                                                    href="{% url 'artigo_revison2' unica_versao.pk %}">{{ unica_versao.revision.date_created|timesince }}</a>#}
+{#                                            </th>#}
+{#                                            <td>#}
+                                                {#                                    {{ action.field_dict }}#}
+{#                                                {{ unica_versao.object_version.object.conteudo }}#}
+{##}
+{#                                            </td>#}
+{#                                            <td>#}
+{#                                                {% if unica_versao.revision.user %}#}
+{#                                                    {{ unica_versao.revision.user.get_username }}#}
+{#                                                    {% if unica_versao.revision.user.get_full_name %} (#}
+{#                                                        {{ unica_versao.revision.user.get_full_name }}){% endif %}#}
+{#                                                {% else %}#}
+{#                                                    &mdash;#}
+{#                                                {% endif %}#}
+{#                                            </td>#}
+{#                                            <td>{{ unica_versao.revision.comment|linebreaksbr|default:"" }}</td>#}
+{#                                        </tr>#}
+{#                                    {% endfor %}#}
+{#                                    </tbody>#}
+{#                                </table>#}
+{#                            {% else %}#}
+{#                                <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{#                    </div>#}
+{##}
+{##}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#        {% endif %}#}
+{##}
+{##}
+{##}
+{##}
+{#        <div>#}
+{#         {% crispy zz %}#}
+{#        </div>#}
+    {% else %}
+        Nada aqui
+    {% endif %}
+
+
+{% endblock conteudo %}
+

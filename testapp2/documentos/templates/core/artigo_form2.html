@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load core_tags %}
+{% block conteudo %}
+
+    {{ block.super }}
+    <a class="btn btn-xs btn-info" href="{% url "artigo_list" %}">Listar Artigos</a>
+    <hr>
+    {% if object %}
+        <a class="btn btn-xs btn-info" href="{% url "artigo_revison2" object.pk %}">Listar Historico de Modificações</a>
+        <hr>
+    {% endif %}
+
+    {% if form %}
+
+        {% crispy form %}
+
+    {% else %}
+        Nada aqui
+    {% endif %}
+
+
+{% endblock conteudo %}
+
